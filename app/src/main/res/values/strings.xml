@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">YelloSakedong</string>
     <string name="title">Food Translate</string>
+
+    <!--main-->
+    <string name="main_text_hint">맛이 궁금한 음식을 입력하세요.</string>
+    <string name="main_fab_title">OK</string>
+    <string name="main_text_translate_title">음식 > 맛번역 Best</string>
+    <string name="main_text_change_text">텍스트</string>
+    <string name="main_text_change_camera">카메라</string>
+
 </resources>
