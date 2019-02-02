@@ -17,6 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".main.viewmodel.Input"></activity>
+        <activity android:name=".splash.SplashActivity"></activity>
+        <activity android:name=".main.viewmodel.search"/>
+
     </application>
 
 </manifest>
