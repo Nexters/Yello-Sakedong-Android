@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">YelloSakedong</string>
+    <string name="title">Food Translate</string>
+    <string name="main_word_hint">맛이 궁금한 음식을 입력하세요</string>
+</resources>
