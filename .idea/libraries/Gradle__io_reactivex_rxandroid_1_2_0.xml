@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: io.reactivex:rxandroid-1.2.0">
+    <CLASSES>
+      <root url="jar://C:/Android/caches/transforms-1/files-1.1/rxandroid-1.2.0.aar/225d9b747e1ad0855787ee71c3bb8b07/jars/classes.jar!/" />
+      <root url="file://C:/Android/caches/transforms-1/files-1.1/rxandroid-1.2.0.aar/225d9b747e1ad0855787ee71c3bb8b07/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://C:/Android/caches/modules-2/files-2.1/io.reactivex/rxandroid/1.2.0/abed181df3fb30979c6d040df0e9bf36ef4ac086/rxandroid-1.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

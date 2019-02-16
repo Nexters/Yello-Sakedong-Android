@@ -21,7 +21,9 @@
         </activity>
         <activity android:name=".input.InputActivity" />
         <activity android:name=".output.OutputActivity"></activity>
-        <activity android:name=".output.Output404Activity"/>
+
+        <activity android:name=".output.viewholder.Output404" />
+
     </application>
 
 </manifest>

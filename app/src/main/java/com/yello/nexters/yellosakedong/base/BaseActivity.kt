@@ -4,7 +4,8 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import com.yello.nexters.yellosakedong.input.InputActivity
-import com.yello.nexters.yellosakedong.output.Output404Activity
+
+import com.yello.nexters.yellosakedong.output.viewholder.Output404
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -29,7 +30,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun page404() {
-        startActivity(Intent(this, Output404Activity::class.java))
+        startActivity(Intent(this, Output404::class.java))
     }
 
     fun addPage() {

@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.orhanobut:logger-2.2.0">
+    <CLASSES>
+      <root url="jar://C:/Android/caches/transforms-1/files-1.1/logger-2.2.0.aar/b58e570f7dc1075a3695f31279b43af6/jars/classes.jar!/" />
+      <root url="file://C:/Android/caches/transforms-1/files-1.1/logger-2.2.0.aar/b58e570f7dc1075a3695f31279b43af6/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://C:/Android/caches/modules-2/files-2.1/com.orhanobut/logger/2.2.0/ab592e9d70f1f3ef6f9a62c2066b3d3ac08244e8/logger-2.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
