@@ -142,6 +142,8 @@ public class InputActivity extends Activity {
 //
 //            thumbnail.setLayoutParams(new FrameLayout.LayoutParams(wdpx, htpx));
 
+            // trst
+
 
         }
 
