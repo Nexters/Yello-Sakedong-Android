@@ -15,6 +15,7 @@ import com.yello.nexters.yellosakedong.base.BaseActivity
 import com.yello.nexters.yellosakedong.input.InputActivity
 import com.yello.nexters.yellosakedong.output.OutputActivity
 import com.yello.nexters.yellosakedong.utils.SOFT_KEYBOARD_HEIGHT_DP_THRESHOLD
+import com.yello.nexters.yellosakedong.utils.dot_porgress_bar.SpotsDialog
 import com.yello.nexters.yellosakedong.utils.log
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.base_toolbar.*
@@ -30,6 +31,11 @@ class MainActivity : BaseActivity() {
         initToolBar()
         movingImage()
         event()
+    }
+
+    fun dialog() {
+        val dialog = SpotsDialog.Builder().setMessage("test").setContext(this).build()
+        dialog.show()
     }
 
     private fun movingImage() {
@@ -69,13 +75,10 @@ class MainActivity : BaseActivity() {
 
     fun onClick(v: View) {
         when (v.id) {
-            R.id.layout_main_intent_activity -> {
-                startActivity(Intent(this, InputActivity::class.java))
-            }
-
             R.id.image_emoticon -> {
-                val it = Intent(this, OutputActivity::class.java)
-                startActivity(it)
+//                val it = Intent(this, OutputActivity::class.java)
+//                startActivity(it)
+                dialog()
             }
         }
     }
