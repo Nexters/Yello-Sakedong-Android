@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".input.InputActivity" />
+        <activity android:name=".input.galleryaddActivity" />
         <activity android:name=".output.OutputActivity"></activity>
 
         <activity android:name=".output.viewholder.Output404" />
