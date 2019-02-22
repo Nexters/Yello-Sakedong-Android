@@ -1,5 +1,7 @@
 package com.yello.nexters.yellosakedong.network
 
+import android.content.Context
+import android.net.ConnectivityManager
 import com.yello.nexters.yellosakedong.utils.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -11,29 +13,28 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-@Module
-@Suppress("unused")
+
 object ServiceModule {
 
-    @Provides
-    @Reusable
-    @JvmStatic
-    internal fun restAPI (retrofit: Retrofit): ServiceAPI {
-        return retrofit.create(ServiceAPI::class.java)
+    fun restAPI (): ServiceAPI {
+        return retrofitInterface().create(ServiceAPI::class.java)
     }
 
     private val httpClient = OkHttpClient.Builder()
-//            .addNetworkInterceptor { chain: Interceptor.Chain -> chain.proceed(chain.request().newBuilder().addHeader("token", TOKEN).build()) }!!
+            .addNetworkInterceptor { chain: Interceptor.Chain -> chain.proceed(chain.request().newBuilder().build()) }!!
 
-    @Provides
-    @Reusable
-    @JvmStatic
-    internal fun retrofitInterface(): Retrofit {
+    private fun retrofitInterface(): Retrofit {
         return Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .client(httpClient.build())
                 .build()
+    }
+
+    fun isNetworkConnected(context: Context): Boolean {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting
     }
 }
