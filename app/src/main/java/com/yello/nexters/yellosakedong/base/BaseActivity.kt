@@ -3,15 +3,18 @@ package com.yello.nexters.yellosakedong.base
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.widget.Toast
 import com.yello.nexters.yellosakedong.input.InputActivity
 import com.yello.nexters.yellosakedong.output.Output404Activity
+import com.yello.nexters.yellosakedong.utils.MAIN_OUTPUT_KEY
+import com.yello.nexters.yellosakedong.utils.YELLOW_SAKE_DONG_KEY
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    protected abstract fun getToolbar(): Toolbar
+    protected abstract fun getToolbar(): Toolbar?
 
     fun visibleBackButton(isVisible: Boolean) {
 
@@ -20,7 +23,7 @@ abstract class BaseActivity : AppCompatActivity() {
             it.setDisplayShowHomeEnabled(isVisible)
         }
 
-        getToolbar().setNavigationOnClickListener {
+        getToolbar()?.setNavigationOnClickListener {
             finish()
         }
     }
@@ -47,8 +50,11 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     inline fun <reified T : Activity>
-            Context.startActivity() {
+            Context.startActivity(bundle: Bundle? = null) {
         val intent = Intent(this, T::class.java)
+        bundle?.let {
+            intent.putExtra(MAIN_OUTPUT_KEY, it)
+        }
         startActivity(intent)
     }
 

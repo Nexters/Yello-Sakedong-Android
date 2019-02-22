@@ -2,7 +2,10 @@ package com.yello.nexters.yellosakedong.main
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
@@ -17,8 +20,10 @@ import com.igalata.bubblepicker.model.PickerItem
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.yello.nexters.yellosakedong.R
 import com.yello.nexters.yellosakedong.base.BaseActivity
-import com.yello.nexters.yellosakedong.network.ServiceAPI
+import com.yello.nexters.yellosakedong.network.NetworkObject
 import com.yello.nexters.yellosakedong.network.ServiceModule
+import com.yello.nexters.yellosakedong.output.Output404Activity
+import com.yello.nexters.yellosakedong.output.OutputActivity
 import com.yello.nexters.yellosakedong.utils.SOFT_KEYBOARD_HEIGHT_DP_THRESHOLD
 import com.yello.nexters.yellosakedong.utils.dot_porgress_bar.SpotsDialog
 import com.yello.nexters.yellosakedong.utils.getYellowSakedongKey
@@ -29,18 +34,16 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.base_toolbar.*
-import javax.inject.Inject
 
 
 class MainActivity : BaseActivity() {
-    override fun getToolbar(): Toolbar = toolbar
-
-    @Inject
-    lateinit var serviceAPI: ServiceAPI
+    override fun getToolbar(): Toolbar? = null
 
     private lateinit var subscription: Disposable
 
-    var rxPermissions: RxPermissions? = null
+    private var rxPermissions: RxPermissions? = null
+
+    private var dialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +51,7 @@ class MainActivity : BaseActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkPermission()
+            dialog = getDialog()
         } else {
             checkUserToken()
         }
@@ -72,22 +76,23 @@ class MainActivity : BaseActivity() {
 
     private fun checkUserToken() {
         val key = getYellowSakedongKey(this)
+        log(key)
         if (key == "") {
             signUp()
         }
-        initToolBar()
         movingImage()
         event()
     }
 
     private fun signUp() {
-        log("signUp")
 
         subscription = ServiceModule.restAPI().signUp(getDeviceId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { result -> setYellowSakedongKey(this, result.userId) },
+                        { result ->
+                            setYellowSakedongKey(this, result.userId)
+                        },
                         { err ->
                             toast(err.message!!)
                             log(err)
@@ -98,14 +103,16 @@ class MainActivity : BaseActivity() {
     @SuppressLint("MissingPermission")
     private fun getDeviceId(): String {
         val deviceID = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        log(deviceID.deviceId)
         return deviceID.deviceId
     }
 
-    fun dialog() {
-        val dialog = SpotsDialog.Builder().setMessage("test").setContext(this).build()
-        dialog.show()
+
+
+
+    private fun getDialog(): AlertDialog {
+        return SpotsDialog.Builder().setMessage("test").setContext(this).build()
     }
+
 
     private fun movingImage() {
         val titles = resources.getStringArray(R.array.countries)
@@ -132,8 +139,7 @@ class MainActivity : BaseActivity() {
 
         picker_main.listener = object : BubblePickerListener {
             override fun onBubbleSelected(item: PickerItem) {
-                page404()
-                log(item.title)
+                getOutput(item.title!!)
             }
 
             override fun onBubbleDeselected(item: PickerItem) {
@@ -142,14 +148,36 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    fun onClick(v: View) {
-        when (v.id) {
-            R.id.image_emoticon -> {
-//                val it = Intent(this, OutputActivity::class.java)
-//                startActivity(it)
-                dialog()
-            }
-        }
+
+    private fun getOutput(text: String) {
+        dialog?.show()
+        subscription = ServiceModule.restAPI().output(getYellowSakedongKey(this), text)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { result ->
+
+                            if(result.error == 404) {
+                                this.startActivity<Output404Activity>()
+                            } else {
+                                dialog?.dismiss()
+
+                                val intent = Intent(this, OutputActivity::class.java)
+
+                                intent.putExtra("data_id",result.data._id)
+                                intent.putExtra("food_name",result.data.foodName)
+                                intent.putExtra("food_image", result.data.foodImageUrl)
+                                intent.putExtra("food_emoji",result.data.foodEmoji)
+
+                                startActivity(intent)
+
+                            }
+                        },
+                        { err ->
+                            dialog?.dismiss()
+                            this.startActivity<Output404Activity>()
+                        }
+                )
     }
 
     private fun event() {
@@ -168,7 +196,11 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        txt_toolbar_add_taste.setOnClickListener { addPage() }
+        image_emoticon.setOnClickListener {
+            val text = edit_main_word.text.toString().trim()
+            getOutput(text)
+        }
+
     }
 
     private fun isKeyboardShown(rootView: View): Boolean {

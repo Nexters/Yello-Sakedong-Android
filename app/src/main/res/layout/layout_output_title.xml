@@ -11,11 +11,13 @@
         android:layout_marginLeft="20dp">
 
         <ImageView
+            android:id="@+id/image_output_main_food_image"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:src="@drawable/ic_add_circle_black_84dp" />
 
         <ImageView
+            android:id="@+id/image_output_main_food_emoji"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentRight="true"
@@ -41,6 +43,7 @@
             android:textSize="28dp" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/txt_food_original_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,6 +54,7 @@
             android:textSize="17dp" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/txt_food_name_english"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
