@@ -39,4 +39,11 @@ object NetworkObject {
             val error: Int,
             val comments: List<CommentDataModel>
     )
+
+    data class FoodBody(
+            val foodName : String,
+            val foodImageUrl : String,
+            val foodComment : String,
+            val foodEmoji : Int
+    )
 }

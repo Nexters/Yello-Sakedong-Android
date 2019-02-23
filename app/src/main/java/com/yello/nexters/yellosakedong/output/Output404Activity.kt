@@ -15,5 +15,6 @@ class Output404Activity : BaseActivity() {
         setContentView(R.layout.layout_output_404_page)
         initToolBar()
         visibleBackButton(true)
+        txt_toolbar_add_taste.setOnClickListener { addPage() }
     }
 }

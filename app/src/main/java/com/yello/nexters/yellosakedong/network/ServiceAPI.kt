@@ -1,10 +1,7 @@
 package com.yello.nexters.yellosakedong.network
 
 import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ServiceAPI {
     @POST("user/signup")
@@ -16,4 +13,7 @@ interface ServiceAPI {
 
     @GET("output/comments")
     fun comments(@Header("_id") userId: String, @Query("foodId") foodId: String) : Observable<NetworkObject.CommentModel>
+
+    @POST("food")
+    fun foodAdd(@Header("_id") userId: String, @Body body: NetworkObject.FoodBody) : Observable<NetworkObject.FoodBody>
 }

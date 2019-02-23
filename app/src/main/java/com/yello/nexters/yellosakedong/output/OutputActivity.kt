@@ -37,6 +37,7 @@ class OutputActivity : BaseActivity() {
         setContentView(R.layout.activity_output)
         initToolBar()
         visibleBackButton(true)
+        txt_toolbar_add_taste.setOnClickListener { addPage() }
 
 
         val i = intent
@@ -45,18 +46,40 @@ class OutputActivity : BaseActivity() {
         val foodName = i.getStringExtra("food_name")
         val foodImageUrl = i.getStringExtra("food_image")
 
-        log(foodId)
-        log(foodName)
-        log(foodImageUrl)
-        log(foodEmoji)
-
         txt_food_name.text = foodName
         Glide.with(this).load(foodImageUrl)
                 .apply(RequestOptions.circleCropTransform())
                 .apply(RequestOptions.placeholderOf(R.drawable.ic_add_circle_black_84dp))
                 .into(image_output_main_food_image)
 
-        if(foodEmoji!=-1) {
+        var image = R.drawable.emo_l_ing
+
+
+        when (foodEmoji) {
+            0 -> {
+                image = R.drawable.emo_l_ing
+            }
+            1 -> {
+                image = R.drawable.emo_m_1
+            }
+            2 -> {
+                image = R.drawable.emo_m_2
+            }
+            3 -> {
+                image = R.drawable.emo_m_3
+            }
+            4 -> {
+                image = R.drawable.emo_m_4
+            }
+        }
+
+
+        Glide.with(this).load(image)
+                .apply(RequestOptions.circleCropTransform())
+                .apply(RequestOptions.placeholderOf(R.drawable.emo_l_ing))
+                .into(image_output_main_food_emoji)
+
+        if (foodEmoji != -1) {
             Glide.with(this).load(foodEmoji)
                     .apply(RequestOptions.circleCropTransform())
                     .into(image_output_main_food_emoji)
@@ -96,11 +119,11 @@ class OutputActivity : BaseActivity() {
         var index = 0
         var isOwner = false
 
-        result.forEach {
-            it ->
+        result.forEach { it ->
             run {
                 isOwner = it.user_id == getYellowSakedongKey(this)
                 list.add(OutputItem(index, it.user_id, it.likeCount, it.comment, isOwner, false))
+                index++
             }
         }
 
@@ -115,7 +138,7 @@ class OutputActivity : BaseActivity() {
         list.add(OutputItem(0, "사케", 312, "사케맛", false, true))
         list.add(OutputItem(1, "노랑", 123, "노랑맛", false, false))
         list.add(OutputItem(2, "모기", 10, "모기맛", false, true))
-        list.add(OutputItem(3, "동", 3, "동동", true,false))
+        list.add(OutputItem(3, "동", 3, "동동", true, false))
         list.add(OutputItem(4, "멸치", 1, "멸치맛", false, true))
         list.add(OutputItem(5, "믱", 1, "믱", false, true))
         list.add(OutputItem(6, "끵", 1, "끵", true, true))
@@ -134,11 +157,11 @@ class OutputActivity : BaseActivity() {
         } else if (o1?.isOwner == false && o2?.isOwner == true) {
             1
         } else {
-            return@Comparator if ( o1?.likeCount!! > o2?.likeCount!!) {
-            -1
-        } else {
-            1
-        }
+            return@Comparator if (o1?.likeCount!! > o2?.likeCount!!) {
+                -1
+            } else {
+                1
+            }
         }
     }
 
